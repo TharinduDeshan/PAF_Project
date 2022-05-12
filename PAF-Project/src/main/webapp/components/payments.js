@@ -22,9 +22,9 @@ var status = validateItemForm();
 	 }
 // If valid----------------------
 	var student = getStudentCard(
-		 $("#ddlMinUnit").val().trim(),
-		 $("#ddlMaxUnit").val().trim(),
-		 $("#txtUnits").val().trim()); 
+		 $("#txtUnit").val().trim(),
+		 $("#ddlMin").val().trim(),
+		 $("#ddlMax").val().trim()); 
 		 $("#colStudents").append(student);
 		
 		 $("#alertSuccess").text("Saved successfully.");
@@ -44,20 +44,24 @@ var status = validateItemForm();
 	function validateItemForm()
 	{
 	// NAME
-	if ($("#txtName").val().trim() == "")
+	if ($("#txtUnit").val().trim() == "")
 	 {
-	 	return "Insert user name.";
+	 	return "Insert unit Price.";
 	 }
 	 // Units
-	if ($("#txtUnits").val().trim() == "")
+	if ($("#ddlMin").val().trim() == "")
 	 {
-	 	return "Insert no of units.";
+	 	return "Insert minimum unit.";
+	 }
+	 if ($("#ddlMax").val().trim() == "")
+	 {
+	 	return "Insert maximum unit.";
 	 }
 	return true;
 	}
 	function getStudentCard(name, gender, year)
 	{
-		var title = (gender == "Male") ? "Mr." : "Ms.";
+	
 		var yearNumber = "";
 		switch (year) {
 			case "1":
