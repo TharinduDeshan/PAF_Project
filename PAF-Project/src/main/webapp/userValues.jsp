@@ -1,5 +1,43 @@
+<%@page import="com.userValues"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 pageEncoding="ISO-8859-1"%>
+
+
+<%-- 
+<%
+if (request.getParameter("UserID") != null)
+{
+ userValues userObj = new userValues();
+ String stsMsg = "";
+//Insert--------------------------
+if (request.getParameter("hidItemIDSave") == "")
+ {
+ stsMsg = userObj.insertUser(
+ request.getParameter("userName"),
+ request.getParameter("noOfUnits"));
+ }
+else//Update----------------------
+ {
+ stsMsg = userObj.updateUser(
+ request.getParameter("UserID"),
+ request.getParameter("userName"),
+ request.getParameter("noOfUnits"));
+ }
+ session.setAttribute("statusMsg", stsMsg);
+}
+//Delete-----------------------------
+if (request.getParameter("hidItemIDDelete") != null)
+{
+userValues userObj = new userValues();
+ String stsMsg =
+ userObj.deleteUser(request.getParameter("hidItemIDDelete"));
+ session.setAttribute("statusMsg", stsMsg);
+}
+%>
+
+--%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +55,7 @@ pageEncoding="ISO-8859-1"%>
  <h3 class="m-3">Usage details</h3>
  <br>
 
- <form id="formStudent">
+ <form id="formUsers" name="formUsers" method="post" action="userValues.jsp">
   <!-- NAME -->
 	 <div class="input-group input-group-sm mb-3">
 		 <div class="input-group-prepend">

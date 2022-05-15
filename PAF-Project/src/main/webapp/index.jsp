@@ -14,7 +14,7 @@
 <a href="user.jsp">Users</a><br>
 <a href="test.jsp">Test</a><br>
 <a href="userValues.jsp">UserValues</a><br>
-<a href="payment.jsp">Payment</a><br>
+<a href="payments.jsp">Payment</a><br>
 <a href="items.jsp">item</a>
 
 

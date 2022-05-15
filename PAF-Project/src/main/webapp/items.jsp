@@ -6,7 +6,7 @@ pageEncoding="ISO-8859-1"%>
 <head>
 <meta charset="ISO-8859-1">
 <title>Items Management</title>
-<link rel="stylesheet" href="cssbootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap.min.css">
 <script src="components/jquery-3.2.1.min.js"></script>
 <script src="components/items.js"></script>
 </head>

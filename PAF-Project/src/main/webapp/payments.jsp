@@ -5,7 +5,7 @@ pageEncoding="ISO-8859-1"%>
 <head>
 <meta charset="ISO-8859-1">
 <title>User usage details</title>
-<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="cssbootstrap.min.css">
 <script src="components/jquery.min.js"></script>
 <script src="components/payments.js"></script>
 </head>

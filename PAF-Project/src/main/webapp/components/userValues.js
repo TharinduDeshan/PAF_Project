@@ -1,44 +1,120 @@
 $(document).ready(function()
 {
+	 if ($("#alertSuccess").text().trim() == "")
+	 {
 	 $("#alertSuccess").hide();
-	 $("#alertError").hide();
+	 }
+	 $("#alertError").hide(); 
+
 });
 // SAVE ============================================
 	$(document).on("click", "#btnSave", function(event)
-{
-// Clear status msges-------------
+	{
+	// Clear alerts---------------------
 	 $("#alertSuccess").text("");
 	 $("#alertSuccess").hide();
 	 $("#alertError").text("");
 	 $("#alertError").hide();
-// Form validation----------------
-var status = validateItemForm();
-// If not valid-------------------
+	// Form validation-------------------
+	var status = validateItemForm();
 	if (status != true)
 	 {
-		 $("#alertError").text(status);
-		 $("#alertError").show();
-		 return;
+	 $("#alertError").text(status);
+	 $("#alertError").show();
+	 return;
 	 }
-// If valid----------------------
-	var student = getStudentCard(
-		 $("#txtName").val().trim(),
-		 $("#txtUnits").val().trim()); 
-		 $("#colStudents").append(student);
-		
-		 $("#alertSuccess").text("Saved successfully.");
-		 $("#alertSuccess").show();
-		
-		 $("#formStudent")[0].reset();
-	});
-	// REMOVE==========================================
-	$(document).on("click", ".remove", function(event)
+	// If valid------------------------
+	var type = ($("#hidItemIDSave").val() == "") ? "POST" : "PUT";
+	 $.ajax(
+	 {
+	 url : "userValuesAPI",
+	 type : type,
+	 data : $("#formUsers").serialize(),
+	 dataType : "text",
+	 complete : function(response, status)
+	 {
+	 onItemSaveComplete(response.responseText, status);
+	 }
+	 });
+});
+
+//Update
+$(document).on("click", ".btnUpdate", function(event){
+	 $("#hidItemIDSave").val($(this).data("itemid"));
+	 $("#itemCode").val($(this).closest("tr").find('td:eq(0)').text());
+	 $("#itemName").val($(this).closest("tr").find('td:eq(1)').text());
+	 $("#itemPrice").val($(this).closest("tr").find('td:eq(2)').text());
+	 $("#itemDesc").val($(this).closest("tr").find('td:eq(3)').text());
+});
+
+//DELETE
+$(document).on("click", ".btnRemove", function(event)
+{
+	 $.ajax(
+	 {
+		 url : "ItemsAPI",
+		 type : "DELETE",
+		 data : "itemID=" + $(this).data("itemid"),
+		 dataType : "text",
+		 complete : function(response, status)
+		 {
+		 	onItemDeleteComplete(response.responseText, status);
+		 }
+	 });
+});
+
+function onItemSaveComplete(response, status){
+	
+	if (status == "success"){
+		 var resultSet = JSON.parse(response);
+		 if (resultSet.status.trim() == "success") {
+			 $("#alertSuccess").text("Successfully saved.");
+			 $("#alertSuccess").show();
+			 $("#divItemsGrid").html(resultSet.data);
+		 } else if (resultSet.status.trim() == "error")
+		 {
+			 $("#alertError").text(resultSet.data);
+			 $("#alertError").show();
+		 }
+	 } else if (status == "error")
+	 {
+		 $("#alertError").text("Error while saving.");
+		 $("#alertError").show();
+	 } else
+	 {
+		 $("#alertError").text("Unknown error while saving..");
+		 $("#alertError").show();
+	 }
+	 $("#hidItemIDSave").val("");
+	 $("#formItem")[0].reset();
+}
+
+function onItemDeleteComplete(response, status)
+{
+	if (status == "success")
 	{
-		 $(this).closest(".student").remove();
-		
-		 $("#alertSuccess").text("Removed successfully.");
-		 $("#alertSuccess").show();
-	});
+		 var resultSet = JSON.parse(response);
+		 if (resultSet.status.trim() == "success")
+		 {
+			 $("#alertSuccess").text("Successfully deleted.");
+			 $("#alertSuccess").show();
+			 $("#divItemsGrid").html(resultSet.data);
+		 } else if (resultSet.status.trim() == "error")
+		 {
+			 $("#alertError").text(resultSet.data);
+			 $("#alertError").show();
+		 }
+	 } else if (status == "error")
+	 {
+		 $("#alertError").text("Error while deleting.");
+		 $("#alertError").show();
+	 } else
+	 {
+		 $("#alertError").text("Unknown error while deleting..");
+		 $("#alertError").show();
+	 }
+}
+
 	// CLIENT-MODEL=================================================================
 	function validateItemForm()
 	{
