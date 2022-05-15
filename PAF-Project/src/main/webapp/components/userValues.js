@@ -40,11 +40,10 @@ $(document).ready(function()
 
 //Update
 $(document).on("click", ".btnUpdate", function(event){
-	 $("#hidItemIDSave").val($(this).data("itemid"));
-	 $("#itemCode").val($(this).closest("tr").find('td:eq(0)').text());
-	 $("#itemName").val($(this).closest("tr").find('td:eq(1)').text());
-	 $("#itemPrice").val($(this).closest("tr").find('td:eq(2)').text());
-	 $("#itemDesc").val($(this).closest("tr").find('td:eq(3)').text());
+	 $("#hidItemIDSave").val($(this).data("UserID"));
+	 $("#UserID").val($(this).closest("tr").find('td:eq(0)').text());
+	 $("#userName").val($(this).closest("tr").find('td:eq(1)').text());
+	 $("#noOfUnits").val($(this).closest("tr").find('td:eq(2)').text());
 });
 
 //DELETE
@@ -52,9 +51,9 @@ $(document).on("click", ".btnRemove", function(event)
 {
 	 $.ajax(
 	 {
-		 url : "ItemsAPI",
+		 url : "userValuesAPI",
 		 type : "DELETE",
-		 data : "itemID=" + $(this).data("itemid"),
+		 data : "UserID=" + $(this).data("UserID"),
 		 dataType : "text",
 		 complete : function(response, status)
 		 {
@@ -119,12 +118,12 @@ function onItemDeleteComplete(response, status)
 	function validateItemForm()
 	{
 	// NAME
-	if ($("#txtName").val().trim() == "")
+	if ($("#userName").val().trim() == "")
 	 {
 	 	return "Insert user name.";
 	 }
 	 // Units
-	if ($("#txtUnits").val().trim() == "")
+	if ($("#noOfUnits").val().trim() == "")
 	 {
 	 	return "Insert no of units.";
 	 }

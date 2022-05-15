@@ -10,7 +10,8 @@ private Connection connect()
 			 Class.forName("com.mysql.jdbc.Driver");
 	
 		 //Provide the correct details: DBServer/DBName, username, password
-		 con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/elecpay", "root", "");
+		 con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/elecbill", "root", "");
+		 System.out.println("Connection Successfull");
 	 }
 		 catch (Exception e)
 		 {e.printStackTrace();}
@@ -23,9 +24,11 @@ private Connection connect()
 			 {
 				 Connection con = connect();
 				 if (con == null)
-					 {return "Error while connecting to the database for inserting."; }
+					 {
+					 	return "Error while connecting to the database for inserting."; 
+					 }
 					 // create a prepared statement
-				 String query = " insert into user (`UserID`,`userName`,`noOfUnits`,)" + " values (?, ?, ?)";
+				 String query = " insert into user(`UserID`,`userName`,`noOfUnits`,)" + " values ( ?, ?, ?)";
 				 PreparedStatement preparedStmt = con.prepareStatement(query);
 				 
 				 // binding values
@@ -38,16 +41,14 @@ private Connection connect()
 					 preparedStmt.execute();
 					 con.close();
 					 output = "Inserted successfully";
-					 
-					 String newUser = readUser();
-					 output = "{\"status\":\"success\", \"data\": \"" +
-					 newUser + "\"}"; 
+					 System.out.println("Inserted successfully");
 
 				 }
 				 	catch (Exception e)
 				 {
-					 output = "{\"status\":\"error\", \"data\":\"Error while inserting the item.\"}";
+					 output = "Error while inserting the user";
 					 System.err.println(e.getMessage());
+					 System.out.println("Error");
 			 }
 		 return output;
 		 }
@@ -86,12 +87,12 @@ private Connection connect()
 							 
 							 // buttons
 							 
-							 output += "<td><form method='post' action='updatePayment.jsp'>"
+							 output += "<td><form method='post' action='updateUserValues.jsp'>"
 							 		+ "<input name='btnUpdate' type='submit' value='Update'class='btn btn-secondary'>"
 							 		+ "<input name='ID' type='hidden' value='" + UserID + "'>" + "</form></td>"
-									 + "<td><form method='post' action='viewPayment.jsp'>"
+									 + "<td><form method='post' action='userValues.jsp'>"
 									 + "<input name='btnRemove' type='submit' value='Remove'class='btn btn-danger'>" 
-									 + "<input name='PayID' type='hidden' value='" + UserID + "'>" + "</form></td></tr>";
+									 + "<input name='UserID' type='hidden' value='" + UserID + "'>" + "</form></td></tr>";
 						 }
 						 con.close();
 				// Complete the html table
@@ -127,13 +128,10 @@ private Connection connect()
 					 con.close();
 					 output = "Updated successfully";
 					 
-					 String newUser = readUser();
-					 output = "{\"status\":\"success\", \"data\": \"" +
-					 newUser + "\"}"; 
 				 }
 				 catch (Exception e)
 			 {
-					 output = "{\"status\":\"error\", \"data\":\"Error while updating the item.\"}";
+					 output = "Error while updating the user";
 						 System.err.println(e.getMessage());
 		 }
 		 return output;
@@ -156,14 +154,11 @@ private Connection connect()
 					 preparedStmt.execute();
 					 con.close();
 					 output = "Deleted successfully";
-					 
-					 String newUser = readUser();
-					 output = "{\"status\":\"success\", \"data\": \"" +
-					 newUser + "\"}"; 
+
 				 }
 				 	catch (Exception e)
 				 {
-				 		output = "{\"status\":\"error\", \"data\": \"Error while deleting the user.\"}"; 
+				 		output = "Error while deleting the user"; 
 
 					 System.err.println(e.getMessage());
 			 }
